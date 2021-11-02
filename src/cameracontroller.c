@@ -161,8 +161,15 @@ void cameracontroller_fps(float dt) {
 	}
 
 	if(chat_input_mode != CHAT_NO_INPUT) {
+		// Fix for standing up when crouched in 2 blocks tunnel
+		// Need to think in a better way to do it...
+		int crouched = players[local_player_id].input.keys.crouch;
 		players[local_player_id].input.keys.packed = 0;
 		players[local_player_id].input.buttons.packed = 0;
+
+		if(crouched && !player_uncrouch(&players[local_player_id])) {
+			players[local_player_id].input.keys.crouch = 1;
+		}
 	}
 
 	float lx = players[local_player_id].orientation_smooth.x * pow(0.7F, dt * 60.0F)
