@@ -45,6 +45,7 @@
 #include "matrix.h"
 #include "texture.h"
 #include "chunk.h"
+#include "rain.h"
 #include "main.h"
 
 int fps = 0;
@@ -112,6 +113,7 @@ void drawScene() {
 	tracer_render();
 	grenade_render();
 	map_damaged_voxels_render();
+	rain_render();
 	matrix_upload();
 
 	if(gamestate.gamemode_type == GAMEMODE_CTF) {
@@ -498,6 +500,7 @@ void init() {
 	hud_init();
 	chunk_init();
 	grenade_init();
+	rain_init();
 
 	weapon_set();
 
@@ -792,6 +795,7 @@ int main(int argc, char** argv) {
 				camera_update(step);
 				tracer_update(step);
 				particle_update(step);
+				rain_update(step);
 				map_collapsing_update(step);
 			}
 		}

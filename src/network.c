@@ -37,6 +37,7 @@
 #include "particle.h"
 #include "texture.h"
 #include "chunk.h"
+#include "rain.h"
 
 void (*packets[256])(void* data, int len) = {NULL};
 
@@ -325,6 +326,12 @@ void read_PacketStateData(void* data, int len) {
 		free(decompressed);
 		free(compressed_chunk_data);
 		libdeflate_free_decompressor(d);
+	}
+
+	// Initialize the rain system :D
+	for (int i = 0; i < 1200; ++i)
+	{
+		add_raindrop(1.0,30.0,1.0);
 	}
 }
 
@@ -936,6 +943,8 @@ void network_disconnect() {
 		enet_peer_disconnect(peer, 0);
 		network_connected = 0;
 		network_logged_in = 0;
+
+		rain_update(0); // stop the rain
 
 		ENetEvent event;
 		while(enet_host_service(client, &event, 3000) > 0) {
