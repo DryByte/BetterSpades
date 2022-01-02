@@ -44,16 +44,16 @@ void ping_init() {
 	sock = enet_socket_create(ENET_SOCKET_TYPE_DATAGRAM);
 	enet_socket_set_option(sock, ENET_SOCKOPT_NONBLOCK, 1);
 
-	lan = enet_socket_create(ENET_SOCKET_TYPE_DATAGRAM);
-	enet_socket_set_option(lan, ENET_SOCKOPT_NONBLOCK, 1);
-	enet_socket_set_option(lan, ENET_SOCKOPT_BROADCAST, 1);
+	//lan = enet_socket_create(ENET_SOCKET_TYPE_DATAGRAM);
+	//enet_socket_set_option(lan, ENET_SOCKOPT_NONBLOCK, 1);
+	//enet_socket_set_option(lan, ENET_SOCKOPT_BROADCAST, 1);
 
 	pthread_create(&ping_thread, NULL, ping_update, NULL);
 }
 
 void ping_deinit() {
 	enet_socket_destroy(sock);
-	enet_socket_destroy(lan);
+	//enet_socket_destroy(lan);
 }
 
 static void ping_lan() {
@@ -91,7 +91,7 @@ static bool pings_retry(void* key, void* value, void* user) {
 void* ping_update(void* data) {
 	pthread_detach(pthread_self());
 
-	ping_lan();
+	//ping_lan();
 	float ping_start = window_time();
 
 	HashTable pings;
@@ -141,7 +141,7 @@ void* ping_update(void* data) {
 
 		ht_iterate_remove(&pings, NULL, pings_retry);
 
-		int length = enet_socket_receive(lan, &from, &buf, 1);
+		/*int length = enet_socket_receive(lan, &from, &buf, 1);
 		if(length) {
 			JSON_Value* js = json_parse_string(buf.data);
 			if(js) {
@@ -165,7 +165,7 @@ void* ping_update(void* data) {
 
 				json_value_free(js);
 			}
-		}
+		}*/
 
 		usleep(1000);
 	}
