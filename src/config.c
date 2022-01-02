@@ -87,6 +87,7 @@ void config_save() {
 	config_setf("client", "camera_fov", settings.camera_fov);
 	config_seti("client", "hold_down_sights", settings.hold_down_sights);
 	config_seti("client", "chat_shadow", settings.chat_shadow);
+	config_seti("client", "rain_size", settings.rain_size);
 
 	for(int k = 0; k < list_size(&config_keys); k++) {
 		struct config_key_pair* e = list_get(&config_keys, k);
@@ -159,6 +160,8 @@ static int config_read_key(void* user, const char* section, const char* name, co
 			settings.hold_down_sights = atoi(value);
 		} else if(!strcmp(name, "chat_shadow")) {
 			settings.chat_shadow = atoi(value);
+		} else if(!strcmp(name, "rain_size")) {
+			settings.rain_size = atoi(value);
 		}
 	}
 	if(!strcmp(section, "controls")) {
@@ -593,5 +596,15 @@ void config_reload() {
 				 .max = 1,
 				 .name = "Show news",
 				 .help = "Show news on server list",
+			 });
+
+	list_add(&config_settings,
+			 &(struct config_setting) {
+				 .value = &settings_tmp.rain_size,
+				 .type = CONFIG_TYPE_INT,
+				 .min = 0,
+				 .max = 1200,
+				 .name = "Rain Size",
+				 .help = "Set rain amount.",
 			 });
 }

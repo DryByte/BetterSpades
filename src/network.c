@@ -38,6 +38,7 @@
 #include "texture.h"
 #include "chunk.h"
 #include "rain.h"
+#include "config.h"
 
 void (*packets[256])(void* data, int len) = {NULL};
 
@@ -329,9 +330,11 @@ void read_PacketStateData(void* data, int len) {
 	}
 
 	// Initialize the rain system :D
-	for (int i = 0; i < 1200; ++i)
-	{
-		add_raindrop(1.0,30.0,1.0);
+	if(settings.rain_size > 0) {
+		for (int i = 0; i < settings.rain_size; ++i)
+		{
+			add_raindrop(1.0,30.0,1.0);
+		}
 	}
 }
 
