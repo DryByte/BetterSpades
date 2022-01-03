@@ -55,7 +55,6 @@ void rain_update(float dt) {
 }
 
 void add_raindrop(float x, float y, float z) {
-	printf("adicionou 1\n");
 	entitysys_add(&raindrops, 
 				  &(struct RainDrop) {
 			  		  .x = x,
