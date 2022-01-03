@@ -3,7 +3,7 @@
 #include "map.h"
 #include "common.h"
 #include "network.h"
-#include "player.h"
+#include "camera.h"
 #include "particle.h"
 
 struct entity_system raindrops;
@@ -32,9 +32,12 @@ static bool rain_update_single(void* obj, void* user) {
 						drop->x, drop->y+2, drop->z, 2.5F,
 						1.0F, 3, 0.07F, 0.1F);
 
-		drop->x=(players[local_player_id].pos.x+64)+(rand()%128)+(-128);
+		int value_x = (camera_x+64)+(rand()%128)+(-128);
+		int value_z = (camera_z+64)+(rand()%128)+(-128);
+
+		drop->x=value_x < 1 || value_x > 511 ? 1 : value_x;
 		drop->y=rand()%65;
-		drop->z=(players[local_player_id].pos.z+64)+(rand()%128)+(-128);
+		drop->z=value_z < 1 || value_z > 511 ? 1 : value_z;
 		drop->next_hit = map_height_at(drop->x, drop->z);
 	}
 
@@ -52,6 +55,7 @@ void rain_update(float dt) {
 }
 
 void add_raindrop(float x, float y, float z) {
+	printf("adicionou 1\n");
 	entitysys_add(&raindrops, 
 				  &(struct RainDrop) {
 			  		  .x = x,

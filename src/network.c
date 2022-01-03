@@ -333,7 +333,7 @@ void read_PacketStateData(void* data, int len) {
 	if(settings.rain_size > 0) {
 		for (int i = 0; i < settings.rain_size; ++i)
 		{
-			add_raindrop(1.0,30.0,1.0);
+			add_raindrop(camera_x,camera_y,camera_z);
 		}
 	}
 }
