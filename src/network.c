@@ -834,6 +834,9 @@ void read_PacketProgressBar(void* data, int len) {
 }
 
 void read_PacketHandshakeInit(void* data, int len) {
+	if(!settings.send_client_info)
+		return;
+
 	network_send(PACKET_HANDSHAKERETURN_ID, data, len);
 }
 

@@ -88,6 +88,7 @@ void config_save() {
 	config_seti("client", "hold_down_sights", settings.hold_down_sights);
 	config_seti("client", "chat_shadow", settings.chat_shadow);
 	config_seti("client", "rain_size", settings.rain_size);
+	config_seti("client", "send_client_info", settings.send_client_info);
 
 	for(int k = 0; k < list_size(&config_keys); k++) {
 		struct config_key_pair* e = list_get(&config_keys, k);
@@ -162,6 +163,8 @@ static int config_read_key(void* user, const char* section, const char* name, co
 			settings.chat_shadow = atoi(value);
 		} else if(!strcmp(name, "rain_size")) {
 			settings.rain_size = atoi(value);
+		} else if(!strcmp(name, "send_client_info")) {
+			settings.send_client_info = atoi(value);
 		}
 	}
 	if(!strcmp(section, "controls")) {
@@ -597,7 +600,6 @@ void config_reload() {
 				 .name = "Show news",
 				 .help = "Show news on server list",
 			 });
-
 	list_add(&config_settings,
 			 &(struct config_setting) {
 				 .value = &settings_tmp.rain_size,
@@ -606,5 +608,14 @@ void config_reload() {
 				 .max = 1200,
 				 .name = "Rain Size",
 				 .help = "Set rain amount.",
+			 });
+	list_add(&config_settings,
+			 &(struct config_setting) {
+			 	.value = &settings_tmp.send_client_info,
+			 	.type = CONFIG_TYPE_INT,
+			 	.min = 0,
+			 	.max = 1,
+			 	.name = "Send client info",
+			 	.help = "Send client info for the servers",
 			 });
 }
