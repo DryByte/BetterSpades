@@ -842,6 +842,9 @@ void read_PacketHandshakeInit(void* data, int len) {
 }
 
 void read_PacketVersionGet(void* data, int len) {
+	if(!settings.send_client_info)
+		return;
+
 	struct PacketVersionSend ver;
 	ver.client = 'B';
 	ver.major = BETTERSPADES_MAJOR;
@@ -869,6 +872,9 @@ void read_PacketVersionGet(void* data, int len) {
 }
 
 void read_PacketExtInfo(void* data, int len) {
+	if(!settings.send_client_info)
+		return;
+
 	struct PacketExtInfo* p = (struct PacketExtInfo*)data;
 	if(len >= p->length * sizeof(struct PacketExtInfoEntry) + 1) {
 		if(p->length > 0) {
