@@ -89,6 +89,7 @@ void config_save() {
 	config_seti("client", "chat_shadow", settings.chat_shadow);
 	config_seti("client", "rain_size", settings.rain_size);
 	config_seti("client", "send_client_info", settings.send_client_info);
+	config_seti("client", "auto_demo_record", settings.auto_demo_record);
 
 	for(int k = 0; k < list_size(&config_keys); k++) {
 		struct config_key_pair* e = list_get(&config_keys, k);
@@ -165,6 +166,8 @@ static int config_read_key(void* user, const char* section, const char* name, co
 			settings.rain_size = atoi(value);
 		} else if(!strcmp(name, "send_client_info")) {
 			settings.send_client_info = atoi(value);
+		} else if(!strcmp(name, "auto_demo_record")) {
+			settings.auto_demo_record = atoi(value);
 		}
 	}
 	if(!strcmp(section, "controls")) {
@@ -607,7 +610,7 @@ void config_reload() {
 				 .min = 0,
 				 .max = 1200,
 				 .name = "Rain Size",
-				 .help = "Set rain amount.",
+				 .help = "Set rain amount",
 			 });
 	list_add(&config_settings,
 			 &(struct config_setting) {
@@ -617,5 +620,14 @@ void config_reload() {
 			 	.max = 1,
 			 	.name = "Send client info",
 			 	.help = "Send client info for the servers",
+			 });
+	list_add(&config_settings,
+			 &(struct config_setting) {
+			 	.value = &settings_tmp.auto_demo_record,
+			 	.type = CONFIG_TYPE_INT,
+			 	.min = 0,
+			 	.max = 1,
+			 	.name = "Auto demo record",
+			 	.help = "Record demos automatically when join a server",
 			 });
 }
